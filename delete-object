@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+echo "==Deleting object from S3"
+
+set -e
+
+#check for bucket name
+if [ -z "$1" ]; then
+        echo "Provide a bucket name eg mybucket"
+        exit 1
+fi
+
+#check for object name
+if [ -z "$2" ]; then
+        echo "Provide the object name"
+        exit 1
+fi
+
+BUCKET_NAME=$1
+OBJECT_KEY=$2
+
+
+aws s3api delete-object --bucket $BUCKET_NAME --key $OBJECT_KEY

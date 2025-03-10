@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+echo "== Deleting all objects from S3 bucket =="
+
+set -e  # Exit on error
+
+# Check for bucket name
+if [ -z "$1" ]; then
+    echo "Provide a bucket name, e.g., mybucket"
+    exit 1
+fi
+
+BUCKET_NAME="$1"
+
+# List all objects in the bucket
+OBJECTS=$(aws s3api list-objects --bucket "$BUCKET_NAME" --query "Contents[].Key" --output text)
+
+# Check if the bucket is already empty
+if [ -z "$OBJECTS" ]; then
+    echo "✅ The bucket '$BUCKET_NAME' is already empty."
+    exit 0
+fi
+
+# Loop through all objects and delete them
+for OBJECT_KEY in $OBJECTS; do
+    echo "Deleting: $OBJECT_KEY"
+    aws s3api delete-object --bucket "$BUCKET_NAME" --key "$OBJECT_KEY"
+done
+
+echo "✅ All objects have been deleted from bucket '$BUCKET_NAME'."
+

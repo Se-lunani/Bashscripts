@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Check if the first argument is provided
+
+echo "== delete bucket"
+if [ -z "$1" ]; then
+        echo "Provide a bucket name eg mybucket"
+        exit 1
+fi
+
+BUCKET_NAME=$1
+
+# Create the bucket using AWS CLI
+aws s3api delete-bucket \
+    --bucket "$BUCKET_NAME" \
+    --region us-east-1 \
+
+
+# Check if the bucket creation was successful
+if [ $? -eq 0 ]; then
+    echo "Bucket '$BUCKET_NAME' deleted successfully!"
+else
+    echo "Failed to create bucket '$BUCKET_NAME'."
+    exit 1
+fi

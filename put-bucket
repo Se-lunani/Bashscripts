@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Exit immediately if any command returns a non-zero status
+set -e
+
+OUTPUT_DIR="./genfiles"
+
+# Remove folder if it exists
+if [ -d "$OUTPUT_DIR" ]; then
+    rm -r "$OUTPUT_DIR"
+fi
+
+# Recreate the directory **AFTER** deleting it
+mkdir -p "$OUTPUT_DIR"
+
+# Loop to create 5 files
+for i in {1..5}; do
+    FILE_NAME="$OUTPUT_DIR/file_$i.txt"
+
+    # Generate file with some content
+    echo "This is file $i" > "$FILE_NAME"
+
+    # Confirm file creation
+    echo "Created: $FILE_NAME"
+done
+
+echo "✅ 5 files have been generated in '$OUTPUT_DIR'"
+
+# Show folder structure (only if 'tree' is installed)
+if command -v tree &> /dev/null; then
+    tree "$OUTPUT_DIR"
+else
+    ls -l "$OUTPUT_DIR"
+fi
+
