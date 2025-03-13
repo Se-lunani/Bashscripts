@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+echo "== deploy s3 bucket with cloudformation"
+
+STACK_NAME="cloudformation-test-one"
+
+aws cloudformation delete-stack \
+--stack-name $STACK_NAME \
+--region us-east-1
+
+if [ $? -ne 0 ]; then
+  echo "Error deleting CloudFormation stack."
+  exit 1
+fi
+
+echo "CloudFormation stack deleted successfully."

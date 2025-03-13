@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo "== deploy s3 bucket with cloudformation"
+
+STACK_NAME="cloudformation-test-one"
+
+aws cloudformation deploy \
+--template-file template.yaml \
+--region us-east-1 \
+--stack-name $STACK_NAME 
+
+if [ $? -ne 0 ]; then
+  echo "Error deploying CloudFormation stack."
+  exit 1
+fi
+
+echo "CloudFormation stack deployed successfully."
